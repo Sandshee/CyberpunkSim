@@ -6,9 +6,17 @@
             "id": "782ceab4-616b-419c-9efe-0df6d0fd9e5e",
             "actions": [
                 {
-                    "name": "Shoot",
+                    "name": "ShootStart",
                     "type": "Button",
                     "id": "e6dc50d9-aa0d-4e2a-8c5c-207c8d064330",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "ShootStop",
+                    "type": "Button",
+                    "id": "5067504b-8f76-4b0a-a78c-f9773298b4af",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -30,17 +38,41 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Jump",
+                    "name": "CrouchStart",
                     "type": "Button",
-                    "id": "9cb37b89-88d6-4721-b2f0-ec13c6033e16",
+                    "id": "1c5efbf9-0446-490c-acd0-d359157a6a62",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
                 },
                 {
-                    "name": "Crouch",
+                    "name": "CrouchEnd",
                     "type": "Button",
-                    "id": "1c5efbf9-0446-490c-acd0-d359157a6a62",
+                    "id": "217dce8c-6f8c-4786-a8ef-108e153e892d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "SprintStart",
+                    "type": "Button",
+                    "id": "60d3884e-2323-4e2c-afa1-20278d9377a4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "SprintStop",
+                    "type": "Button",
+                    "id": "deb88f17-20dc-4858-910a-0d649578a7e6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Jump",
+                    "type": "Button",
+                    "id": "9cb37b89-88d6-4721-b2f0-ec13c6033e16",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -83,10 +115,10 @@
                     "name": "",
                     "id": "f08b9bd7-e74e-43b1-8c5c-81247a6ae248",
                     "path": "<Mouse>/leftButton",
-                    "interactions": "",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "Mouse&Keyboard",
-                    "action": "Shoot",
+                    "action": "ShootStart",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -94,10 +126,10 @@
                     "name": "",
                     "id": "3224f6a2-f13d-4b6c-830a-9a5044bcc0fe",
                     "path": "<Gamepad>/rightTrigger",
-                    "interactions": "",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "Controller",
-                    "action": "Shoot",
+                    "action": "ShootStart",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -235,28 +267,6 @@
                 },
                 {
                     "name": "",
-                    "id": "e2071f31-b18b-4b91-a603-138ce743921a",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "cac81cd3-3311-413f-bc55-6f9623213965",
-                    "path": "<Gamepad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "50019730-bfb5-4a17-b4f9-43d30db32f72",
                     "path": "<Keyboard>/f",
                     "interactions": "",
@@ -292,10 +302,10 @@
                     "name": "",
                     "id": "aa53d3ef-f2a8-4b0f-866a-b41f1ea76430",
                     "path": "<Keyboard>/ctrl",
-                    "interactions": "",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "Mouse&Keyboard",
-                    "action": "Crouch",
+                    "action": "CrouchStart",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -303,10 +313,10 @@
                     "name": "",
                     "id": "a1f03345-169d-4643-862d-e2d552f9bf2c",
                     "path": "<Gamepad>/buttonEast",
-                    "interactions": "",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "Controller",
-                    "action": "Crouch",
+                    "action": "CrouchStart",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -384,6 +394,116 @@
                     "processors": "",
                     "groups": "Controller",
                     "action": "ZoomEnd",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fce2e5d4-9393-4b71-8398-842b75734a6b",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "Mouse&Keyboard",
+                    "action": "CrouchEnd",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "45d14ff3-fac2-4f61-9f85-937da41c8702",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "CrouchEnd",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e2071f31-b18b-4b91-a603-138ce743921a",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cac81cd3-3311-413f-bc55-6f9623213965",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "52713210-36ab-4778-a131-e7b246954418",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Mouse&Keyboard",
+                    "action": "SprintStart",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cfb6670d-1d00-4e98-937a-78862fd1a2ca",
+                    "path": "<Gamepad>/leftStickPress",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "SprintStart",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "902d4db0-9158-4bba-a176-ce6d6ae983c0",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "Mouse&Keyboard",
+                    "action": "SprintStop",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0bca5db2-f967-442f-a555-38a87feee52a",
+                    "path": "<Gamepad>/leftStickPress",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "SprintStop",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1a501745-263e-4552-bdcd-08c3430d80fa",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "Mouse&Keyboard",
+                    "action": "ShootStop",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3de57345-0468-40fd-a946-76d8dc6a629d",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "ShootStop",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

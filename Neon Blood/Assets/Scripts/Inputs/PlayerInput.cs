@@ -19,9 +19,17 @@ public class @PlayerInput : IInputActionCollection, IDisposable
             ""id"": ""782ceab4-616b-419c-9efe-0df6d0fd9e5e"",
             ""actions"": [
                 {
-                    ""name"": ""Shoot"",
+                    ""name"": ""ShootStart"",
                     ""type"": ""Button"",
                     ""id"": ""e6dc50d9-aa0d-4e2a-8c5c-207c8d064330"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""ShootStop"",
+                    ""type"": ""Button"",
+                    ""id"": ""5067504b-8f76-4b0a-a78c-f9773298b4af"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -43,17 +51,41 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Jump"",
+                    ""name"": ""CrouchStart"",
                     ""type"": ""Button"",
-                    ""id"": ""9cb37b89-88d6-4721-b2f0-ec13c6033e16"",
+                    ""id"": ""1c5efbf9-0446-490c-acd0-d359157a6a62"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Crouch"",
+                    ""name"": ""CrouchEnd"",
                     ""type"": ""Button"",
-                    ""id"": ""1c5efbf9-0446-490c-acd0-d359157a6a62"",
+                    ""id"": ""217dce8c-6f8c-4786-a8ef-108e153e892d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""SprintStart"",
+                    ""type"": ""Button"",
+                    ""id"": ""60d3884e-2323-4e2c-afa1-20278d9377a4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""SprintStop"",
+                    ""type"": ""Button"",
+                    ""id"": ""deb88f17-20dc-4858-910a-0d649578a7e6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""9cb37b89-88d6-4721-b2f0-ec13c6033e16"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -96,10 +128,10 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""name"": """",
                     ""id"": ""f08b9bd7-e74e-43b1-8c5c-81247a6ae248"",
                     ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": ""Mouse&Keyboard"",
-                    ""action"": ""Shoot"",
+                    ""action"": ""ShootStart"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -107,10 +139,10 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""name"": """",
                     ""id"": ""3224f6a2-f13d-4b6c-830a-9a5044bcc0fe"",
                     ""path"": ""<Gamepad>/rightTrigger"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": ""Controller"",
-                    ""action"": ""Shoot"",
+                    ""action"": ""ShootStart"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -248,28 +280,6 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""e2071f31-b18b-4b91-a603-138ce743921a"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""cac81cd3-3311-413f-bc55-6f9623213965"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""50019730-bfb5-4a17-b4f9-43d30db32f72"",
                     ""path"": ""<Keyboard>/f"",
                     ""interactions"": """",
@@ -305,10 +315,10 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""name"": """",
                     ""id"": ""aa53d3ef-f2a8-4b0f-866a-b41f1ea76430"",
                     ""path"": ""<Keyboard>/ctrl"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": ""Mouse&Keyboard"",
-                    ""action"": ""Crouch"",
+                    ""action"": ""CrouchStart"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -316,10 +326,10 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""name"": """",
                     ""id"": ""a1f03345-169d-4643-862d-e2d552f9bf2c"",
                     ""path"": ""<Gamepad>/buttonEast"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": ""Controller"",
-                    ""action"": ""Crouch"",
+                    ""action"": ""CrouchStart"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -399,6 +409,116 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""action"": ""ZoomEnd"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fce2e5d4-9393-4b71-8398-842b75734a6b"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": ""Mouse&Keyboard"",
+                    ""action"": ""CrouchEnd"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""45d14ff3-fac2-4f61-9f85-937da41c8702"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""CrouchEnd"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e2071f31-b18b-4b91-a603-138ce743921a"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cac81cd3-3311-413f-bc55-6f9623213965"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""52713210-36ab-4778-a131-e7b246954418"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": ""Mouse&Keyboard"",
+                    ""action"": ""SprintStart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cfb6670d-1d00-4e98-937a-78862fd1a2ca"",
+                    ""path"": ""<Gamepad>/leftStickPress"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""SprintStart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""902d4db0-9158-4bba-a176-ce6d6ae983c0"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": ""Mouse&Keyboard"",
+                    ""action"": ""SprintStop"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0bca5db2-f967-442f-a555-38a87feee52a"",
+                    ""path"": ""<Gamepad>/leftStickPress"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""SprintStop"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1a501745-263e-4552-bdcd-08c3430d80fa"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": ""Mouse&Keyboard"",
+                    ""action"": ""ShootStop"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3de57345-0468-40fd-a946-76d8dc6a629d"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""ShootStop"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -435,11 +555,15 @@ public class @PlayerInput : IInputActionCollection, IDisposable
 }");
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-        m_Player_Shoot = m_Player.FindAction("Shoot", throwIfNotFound: true);
+        m_Player_ShootStart = m_Player.FindAction("ShootStart", throwIfNotFound: true);
+        m_Player_ShootStop = m_Player.FindAction("ShootStop", throwIfNotFound: true);
         m_Player_ZoomStart = m_Player.FindAction("ZoomStart", throwIfNotFound: true);
         m_Player_ZoomEnd = m_Player.FindAction("ZoomEnd", throwIfNotFound: true);
+        m_Player_CrouchStart = m_Player.FindAction("CrouchStart", throwIfNotFound: true);
+        m_Player_CrouchEnd = m_Player.FindAction("CrouchEnd", throwIfNotFound: true);
+        m_Player_SprintStart = m_Player.FindAction("SprintStart", throwIfNotFound: true);
+        m_Player_SprintStop = m_Player.FindAction("SprintStop", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
-        m_Player_Crouch = m_Player.FindAction("Crouch", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
         m_Player_MouseLook = m_Player.FindAction("MouseLook", throwIfNotFound: true);
@@ -493,11 +617,15 @@ public class @PlayerInput : IInputActionCollection, IDisposable
     // Player
     private readonly InputActionMap m_Player;
     private IPlayerActions m_PlayerActionsCallbackInterface;
-    private readonly InputAction m_Player_Shoot;
+    private readonly InputAction m_Player_ShootStart;
+    private readonly InputAction m_Player_ShootStop;
     private readonly InputAction m_Player_ZoomStart;
     private readonly InputAction m_Player_ZoomEnd;
+    private readonly InputAction m_Player_CrouchStart;
+    private readonly InputAction m_Player_CrouchEnd;
+    private readonly InputAction m_Player_SprintStart;
+    private readonly InputAction m_Player_SprintStop;
     private readonly InputAction m_Player_Jump;
-    private readonly InputAction m_Player_Crouch;
     private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_Movement;
     private readonly InputAction m_Player_MouseLook;
@@ -506,11 +634,15 @@ public class @PlayerInput : IInputActionCollection, IDisposable
     {
         private @PlayerInput m_Wrapper;
         public PlayerActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Shoot => m_Wrapper.m_Player_Shoot;
+        public InputAction @ShootStart => m_Wrapper.m_Player_ShootStart;
+        public InputAction @ShootStop => m_Wrapper.m_Player_ShootStop;
         public InputAction @ZoomStart => m_Wrapper.m_Player_ZoomStart;
         public InputAction @ZoomEnd => m_Wrapper.m_Player_ZoomEnd;
+        public InputAction @CrouchStart => m_Wrapper.m_Player_CrouchStart;
+        public InputAction @CrouchEnd => m_Wrapper.m_Player_CrouchEnd;
+        public InputAction @SprintStart => m_Wrapper.m_Player_SprintStart;
+        public InputAction @SprintStop => m_Wrapper.m_Player_SprintStop;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
-        public InputAction @Crouch => m_Wrapper.m_Player_Crouch;
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputAction @Movement => m_Wrapper.m_Player_Movement;
         public InputAction @MouseLook => m_Wrapper.m_Player_MouseLook;
@@ -524,21 +656,33 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         {
             if (m_Wrapper.m_PlayerActionsCallbackInterface != null)
             {
-                @Shoot.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShoot;
-                @Shoot.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShoot;
-                @Shoot.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShoot;
+                @ShootStart.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShootStart;
+                @ShootStart.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShootStart;
+                @ShootStart.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShootStart;
+                @ShootStop.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShootStop;
+                @ShootStop.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShootStop;
+                @ShootStop.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShootStop;
                 @ZoomStart.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnZoomStart;
                 @ZoomStart.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnZoomStart;
                 @ZoomStart.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnZoomStart;
                 @ZoomEnd.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnZoomEnd;
                 @ZoomEnd.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnZoomEnd;
                 @ZoomEnd.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnZoomEnd;
+                @CrouchStart.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouchStart;
+                @CrouchStart.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouchStart;
+                @CrouchStart.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouchStart;
+                @CrouchEnd.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouchEnd;
+                @CrouchEnd.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouchEnd;
+                @CrouchEnd.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouchEnd;
+                @SprintStart.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprintStart;
+                @SprintStart.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprintStart;
+                @SprintStart.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprintStart;
+                @SprintStop.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprintStop;
+                @SprintStop.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprintStop;
+                @SprintStop.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprintStop;
                 @Jump.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
-                @Crouch.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouch;
-                @Crouch.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouch;
-                @Crouch.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouch;
                 @Interact.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
                 @Interact.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
                 @Interact.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
@@ -555,21 +699,33 @@ public class @PlayerInput : IInputActionCollection, IDisposable
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Shoot.started += instance.OnShoot;
-                @Shoot.performed += instance.OnShoot;
-                @Shoot.canceled += instance.OnShoot;
+                @ShootStart.started += instance.OnShootStart;
+                @ShootStart.performed += instance.OnShootStart;
+                @ShootStart.canceled += instance.OnShootStart;
+                @ShootStop.started += instance.OnShootStop;
+                @ShootStop.performed += instance.OnShootStop;
+                @ShootStop.canceled += instance.OnShootStop;
                 @ZoomStart.started += instance.OnZoomStart;
                 @ZoomStart.performed += instance.OnZoomStart;
                 @ZoomStart.canceled += instance.OnZoomStart;
                 @ZoomEnd.started += instance.OnZoomEnd;
                 @ZoomEnd.performed += instance.OnZoomEnd;
                 @ZoomEnd.canceled += instance.OnZoomEnd;
+                @CrouchStart.started += instance.OnCrouchStart;
+                @CrouchStart.performed += instance.OnCrouchStart;
+                @CrouchStart.canceled += instance.OnCrouchStart;
+                @CrouchEnd.started += instance.OnCrouchEnd;
+                @CrouchEnd.performed += instance.OnCrouchEnd;
+                @CrouchEnd.canceled += instance.OnCrouchEnd;
+                @SprintStart.started += instance.OnSprintStart;
+                @SprintStart.performed += instance.OnSprintStart;
+                @SprintStart.canceled += instance.OnSprintStart;
+                @SprintStop.started += instance.OnSprintStop;
+                @SprintStop.performed += instance.OnSprintStop;
+                @SprintStop.canceled += instance.OnSprintStop;
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
-                @Crouch.started += instance.OnCrouch;
-                @Crouch.performed += instance.OnCrouch;
-                @Crouch.canceled += instance.OnCrouch;
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
@@ -606,11 +762,15 @@ public class @PlayerInput : IInputActionCollection, IDisposable
     }
     public interface IPlayerActions
     {
-        void OnShoot(InputAction.CallbackContext context);
+        void OnShootStart(InputAction.CallbackContext context);
+        void OnShootStop(InputAction.CallbackContext context);
         void OnZoomStart(InputAction.CallbackContext context);
         void OnZoomEnd(InputAction.CallbackContext context);
+        void OnCrouchStart(InputAction.CallbackContext context);
+        void OnCrouchEnd(InputAction.CallbackContext context);
+        void OnSprintStart(InputAction.CallbackContext context);
+        void OnSprintStop(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
-        void OnCrouch(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnMovement(InputAction.CallbackContext context);
         void OnMouseLook(InputAction.CallbackContext context);

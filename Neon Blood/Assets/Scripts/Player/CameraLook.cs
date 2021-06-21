@@ -6,6 +6,8 @@ public class CameraLook : MonoBehaviour
 {
 
     public Transform playerBody;
+    public Transform lockLocation;
+    public Transform cameraParent;
     private InputManager im;
     private PlayerSettings ps;
 
@@ -40,5 +42,8 @@ public class CameraLook : MonoBehaviour
 
         transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         playerBody.Rotate(Vector3.up * inputVec.x * ps.GetMouseXSens());
+
+        cameraParent.transform.position = lockLocation.position;
+        cameraParent.transform.rotation = lockLocation.rotation;
     }
 }

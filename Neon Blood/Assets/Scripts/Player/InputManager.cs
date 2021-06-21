@@ -59,20 +59,34 @@ public class InputManager : MonoBehaviour
         return controls.Player.Jump.triggered;
     }
 
+
     public bool PlayerInteractedThisFrame()
     {
         return controls.Player.Interact.triggered;
     }
 
+
     public bool PlayerCrouchedThisFrame()
     {
-        return controls.Player.Crouch.triggered;
+        return controls.Player.CrouchStart.triggered;
     }
+
+    public bool PlayerUncrouchedThisFrame()
+    {
+        return controls.Player.CrouchEnd.triggered;
+    }
+
 
     public bool PlayerShotThisFrame()
     {
-        return controls.Player.Shoot.triggered;
+        return controls.Player.ShootStart.triggered;
     }
+
+    public bool PlayerStoppedShootingThisFrame()
+    {
+        return controls.Player.ShootStop.triggered;
+    }
+
 
     public bool PlayerZoomedThisFrame()
     {
@@ -82,5 +96,16 @@ public class InputManager : MonoBehaviour
     public bool PlayerStopZoomedThisFrame()
     {
         return controls.Player.ZoomEnd.triggered;
+    }
+
+
+    public bool PlayerSprintingThisFrame()
+    {
+        return controls.Player.SprintStart.triggered;
+    }
+
+    public bool PlayerStoppedSprintingThisFrame()
+    {
+        return controls.Player.SprintStop.triggered;
     }
 }
