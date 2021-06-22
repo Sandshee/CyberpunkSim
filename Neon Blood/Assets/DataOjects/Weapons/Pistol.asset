@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a74bad80459c2744a0fb67f8949d191, type: 3}
+  m_Name: Pistol
+  m_EditorClassIdentifier: 
+  name: Dev_Pistol
+  description: 
+  force: 1
+  recoil: 1
+  model: {fileID: 0}
+  damage: 5
+  roundsPerMinute: 30
+  clip: 8
+  spareRounds: 24
+  reloadTime: 4
+  lethal: 0
+  effectiveRange: 50
+  ammo: 0

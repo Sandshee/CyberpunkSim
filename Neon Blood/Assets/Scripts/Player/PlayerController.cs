@@ -10,7 +10,9 @@ public class PlayerController : MonoBehaviour
     public CameraAnims camAn;
 
     [Header("Movement")]
-    public float speed = 5f;
+    public float maxSpeed = 5f;
+    private float speed = 0f;
+    public float accelleration = 0.1f;
     public float airMod = 0.5f;
     private float slopeLimit;
     private float stepOffset;
@@ -53,6 +55,7 @@ public class PlayerController : MonoBehaviour
     public float mass;
     public float interactDistance = 0.5f;
     public Transform hands;
+    private PhysicsProp heldItem;
 
 
     // Start is called before the first frame update
@@ -179,6 +182,15 @@ public class PlayerController : MonoBehaviour
 
     void MovePlayer(Vector2 inputs)
     {
+        //Fake a little bit of accelleration.
+        if(inputs == Vector2.zero)
+        {
+            speed = 0;
+        } else
+        {
+            speed = Mathf.Clamp(speed + (accelleration * Time.deltaTime), 0, maxSpeed);
+        }
+
         previousPosition = transform.position;
         float tempSpeed = speed;
         if (!isGrounded)
@@ -265,17 +277,27 @@ public class PlayerController : MonoBehaviour
 
     void Interact()
     {
-        RaycastHit objectHit;
 
-        bool hit = Physics.Raycast(camAn.gameObject.transform.position, camAn.gameObject.transform.forward, out objectHit, interactDistance);
-        Debug.DrawRay(camAn.gameObject.transform.position, camAn.gameObject.transform.forward, Color.red, interactDistance);
-
-        Debug.Log("ButterFingers " + hit);
-
-        if (hit && objectHit.collider.CompareTag("Pickup"))
+        if (heldItem)
         {
-            objectHit.collider.gameObject.GetComponent<PhysicsProp>().Pickup(hands);
-            Debug.Log("Why are you not picked up?");
+            heldItem.PutDown();
+            heldItem = null;
+        }
+        else
+        {
+            RaycastHit objectHit;
+
+            bool hit = Physics.Raycast(camAn.gameObject.transform.position, camAn.gameObject.transform.forward, out objectHit, interactDistance);
+            Debug.DrawRay(camAn.gameObject.transform.position, camAn.gameObject.transform.forward, Color.red, interactDistance);
+
+            Debug.Log("ButterFingers " + hit);
+
+            if (hit && objectHit.collider.CompareTag("Pickup"))
+            {
+                heldItem = objectHit.collider.gameObject.GetComponent<PhysicsProp>();
+
+                heldItem.Pickup(hands);
+            }
         }
     }
 }
