@@ -16,6 +16,10 @@ public class PlayerController : MonoBehaviour
     public float airMod = 0.5f;
     private float slopeLimit;
     private float stepOffset;
+    public float landingMod = 0.25f;
+
+    private Vector3 horizontalVel;
+    public float drag;
 
     private Vector3 previousPosition;
 
@@ -36,9 +40,7 @@ public class PlayerController : MonoBehaviour
     public float jumpHeight;
     private float jumpForce;
     private Vector3 startingJump;
-
-    [SerializeField]
-    public UnityEvent m_Landing;
+    public float maxLandingTime;
 
     [Header("Crouching")]
 
@@ -95,6 +97,7 @@ public class PlayerController : MonoBehaviour
             Jump();
         }
 
+        //The player falls down, affected by Gravity.
         velocity.y += gravity * mass * Time.deltaTime;
         cc.Move(velocity * Time.deltaTime);
 
@@ -130,7 +133,7 @@ public class PlayerController : MonoBehaviour
         {
             //I've just landed, implement Landing Lag.
             camAn.LandingShake(Vector3.Distance(transform.position, startingJump));
-            StartCoroutine(WaitForNextJump());
+            StartCoroutine(WaitForNextJump(Vector3.Distance(transform.position, startingJump)));
             cc.slopeLimit = slopeLimit;
             cc.stepOffset = stepOffset;
         }
@@ -157,10 +160,11 @@ public class PlayerController : MonoBehaviour
         canJump = false;
     }
 
-    IEnumerator WaitForNextJump()
+    IEnumerator WaitForNextJump(float modifier)
     {
+        modifier = Mathf.Clamp(modifier * landingLag, 0, maxLandingTime * landingLag)/landingLag;
         coroutineCount++;
-        yield return new WaitForSeconds(landingLag);
+        yield return new WaitForSeconds(landingLag * modifier);
         coroutineCount--;
 
         if(coroutineCount == 0)
@@ -182,25 +186,51 @@ public class PlayerController : MonoBehaviour
 
     void MovePlayer(Vector2 inputs)
     {
-        //Fake a little bit of accelleration.
-        if(inputs == Vector2.zero)
+        previousPosition = transform.position;
+
+        //If the player is on the ground, they can stop moving without input.
+        if (isGrounded && inputs == Vector2.zero)
         {
-            speed = 0;
-        } else
-        {
-            speed = Mathf.Clamp(speed + (accelleration * Time.deltaTime), 0, maxSpeed);
+            Drag();
         }
 
-        previousPosition = transform.position;
-        float tempSpeed = speed;
+        //If the player is in the air, their accelleration is modified;
+
+        Vector3 relativeInputs = GetRelativeInputs(inputs);
+
         if (!isGrounded)
         {
-            tempSpeed *= airMod;
-        } else if (crouching)
+            horizontalVel += relativeInputs * accelleration * airMod;
+        } else
         {
-            tempSpeed *= crouchMod;
+            horizontalVel += relativeInputs * accelleration;
         }
-        cc.Move(GetRelativeInputs(inputs) * Time.deltaTime * tempSpeed);
+
+        //Deal with the different max speeds, depending on the player's current state.
+        float currentMaxSpeed = maxSpeed;
+
+        if (crouching)
+        {
+            currentMaxSpeed *= crouchMod;
+        }
+
+        if (isGrounded && !canJump)
+        {
+            currentMaxSpeed *= landingMod;
+        }
+
+        //Clamp the velocity to a maximum value.
+        if (horizontalVel.sqrMagnitude > currentMaxSpeed * currentMaxSpeed)
+        {
+            horizontalVel = horizontalVel.normalized * currentMaxSpeed;
+        }
+
+        cc.Move(horizontalVel * Time.deltaTime);
+    }
+
+    void Drag()
+    {
+        horizontalVel = horizontalVel / drag;
     }
 
     private Vector3 GetHorizontalComponents(Vector2 inVector)
@@ -292,11 +322,22 @@ public class PlayerController : MonoBehaviour
 
             Debug.Log("ButterFingers " + hit);
 
-            if (hit && objectHit.collider.CompareTag("Pickup"))
+            if (hit)
             {
-                heldItem = objectHit.collider.gameObject.GetComponent<PhysicsProp>();
+                //Picking up an item.
+                if (objectHit.collider.CompareTag("Pickup"))
+                {
+                    heldItem = objectHit.collider.gameObject.GetComponent<PhysicsProp>();
 
-                heldItem.Pickup(hands);
+                    heldItem.Pickup(hands);
+                }
+
+                //Using a ladder.
+                if (objectHit.collider.CompareTag("Ladder"))
+                {
+                    Debug.DrawLine(transform.position, objectHit.collider.gameObject.GetComponent<Ladder>().Connect(transform.position));
+                    Debug.Break();
+                }
             }
         }
     }

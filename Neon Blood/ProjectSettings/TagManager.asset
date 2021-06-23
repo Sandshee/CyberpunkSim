@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Interactable
   - Pickup
+  - Ladder
   layers:
   - Default
   - TransparentFX
