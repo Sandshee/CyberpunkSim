@@ -8,6 +8,7 @@ public class Ladder : MonoBehaviour
     public Transform ladderBottom;
     public Transform ladderTop;
     public float height;
+    public float currentPlayerPos = 0;
 
     public int steps;
 
@@ -33,6 +34,14 @@ public class Ladder : MonoBehaviour
         float distanceUp = Vector3.Dot(BC, BT)/Vector3.Magnitude(BT);
         float t = distanceUp / BT.magnitude;
 
+        currentPlayerPos = t;
+
         return Vector3.Lerp(ladderBottom.position, ladderTop.position, t);
+    }
+
+    public Vector3 Climb(float up, float speed)
+    {
+        currentPlayerPos = (up * speed) / height + currentPlayerPos;
+        return Vector3.Lerp(ladderBottom.position, ladderTop.position, currentPlayerPos);
     }
 }

@@ -59,6 +59,11 @@ public class PlayerController : MonoBehaviour
     public Transform hands;
     private PhysicsProp heldItem;
 
+    private Ladder ladder;
+    private float ladderPCT;
+    private bool isClimbing = false;
+    public float climbSpeed;
+
 
     // Start is called before the first frame update
     void Awake()
@@ -85,6 +90,11 @@ public class PlayerController : MonoBehaviour
 
         CrouchCheck();
 
+        if (isClimbing)
+        {
+            Climbing();
+        }
+
         if (im.PlayerInteractedThisFrame())
         {
             Interact();
@@ -97,9 +107,12 @@ public class PlayerController : MonoBehaviour
             Jump();
         }
 
-        //The player falls down, affected by Gravity.
-        velocity.y += gravity * mass * Time.deltaTime;
-        cc.Move(velocity * Time.deltaTime);
+        if (!isClimbing)
+        {
+            //The player falls down, affected by Gravity.
+            velocity.y += gravity * mass * Time.deltaTime;
+            cc.Move(velocity * Time.deltaTime);
+        }
 
         if(velocity.y >= 0)
         {
@@ -186,46 +199,53 @@ public class PlayerController : MonoBehaviour
 
     void MovePlayer(Vector2 inputs)
     {
-        previousPosition = transform.position;
-
-        //If the player is on the ground, they can stop moving without input.
-        if (isGrounded && inputs == Vector2.zero)
+        if (!isClimbing)
         {
-            Drag();
-        }
+            previousPosition = transform.position;
 
-        //If the player is in the air, their accelleration is modified;
+            //If the player is on the ground, they can stop moving without input.
+            if (isGrounded && inputs == Vector2.zero)
+            {
+                Drag();
+            }
 
-        Vector3 relativeInputs = GetRelativeInputs(inputs);
+            //If the player is in the air, their accelleration is modified;
 
-        if (!isGrounded)
-        {
-            horizontalVel += relativeInputs * accelleration * airMod;
+            Vector3 relativeInputs = GetRelativeInputs(inputs);
+
+            if (!isGrounded)
+            {
+                horizontalVel += relativeInputs * accelleration * airMod;
+            }
+            else
+            {
+                horizontalVel += relativeInputs * accelleration;
+            }
+
+            //Deal with the different max speeds, depending on the player's current state.
+            float currentMaxSpeed = maxSpeed;
+
+            if (crouching)
+            {
+                currentMaxSpeed *= crouchMod;
+            }
+
+            if (isGrounded && !canJump)
+            {
+                currentMaxSpeed *= landingMod;
+            }
+
+            //Clamp the velocity to a maximum value.
+            if (horizontalVel.sqrMagnitude > currentMaxSpeed * currentMaxSpeed)
+            {
+                horizontalVel = horizontalVel.normalized * currentMaxSpeed;
+            }
+
+            cc.Move(horizontalVel * Time.deltaTime);
         } else
         {
-            horizontalVel += relativeInputs * accelleration;
+            horizontalVel = Vector3.zero;
         }
-
-        //Deal with the different max speeds, depending on the player's current state.
-        float currentMaxSpeed = maxSpeed;
-
-        if (crouching)
-        {
-            currentMaxSpeed *= crouchMod;
-        }
-
-        if (isGrounded && !canJump)
-        {
-            currentMaxSpeed *= landingMod;
-        }
-
-        //Clamp the velocity to a maximum value.
-        if (horizontalVel.sqrMagnitude > currentMaxSpeed * currentMaxSpeed)
-        {
-            horizontalVel = horizontalVel.normalized * currentMaxSpeed;
-        }
-
-        cc.Move(horizontalVel * Time.deltaTime);
     }
 
     void Drag()
@@ -313,6 +333,13 @@ public class PlayerController : MonoBehaviour
             heldItem.PutDown();
             heldItem = null;
         }
+
+        if (isClimbing)
+        {
+            isClimbing = false;
+            ladder = null;
+        }
+
         else
         {
             RaycastHit objectHit;
@@ -335,10 +362,18 @@ public class PlayerController : MonoBehaviour
                 //Using a ladder.
                 if (objectHit.collider.CompareTag("Ladder"))
                 {
-                    Debug.DrawLine(transform.position, objectHit.collider.gameObject.GetComponent<Ladder>().Connect(transform.position));
-                    Debug.Break();
+                    isClimbing = true;
+                    ladder = objectHit.collider.gameObject.GetComponent<Ladder>();
+                    transform.position = ladder.Connect(transform.position);
                 }
             }
         }
+    }
+
+    void Climbing()
+    {
+        float up = im.GetPlayerMovement().y;
+
+        transform.position = ladder.Climb(up, climbSpeed * Time.deltaTime);
     }
 }

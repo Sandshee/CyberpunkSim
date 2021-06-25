@@ -1734,6 +1734,7 @@ MonoBehaviour:
   ladderBottom: {fileID: 1516187951}
   ladderTop: {fileID: 1353011008}
   height: 0
+  currentPlayerPos: 0
   steps: 5
 --- !u!43 &67700208
 Mesh:
@@ -1741,7 +1742,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-5282
+  m_Name: pb_Mesh19146
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -48913,7 +48914,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1353011007}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 4, z: -0.125}
+  m_LocalPosition: {x: 0.5, y: 4, z: -0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 51612537}
@@ -63761,7 +63762,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1516187950}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 0, z: -0.125}
+  m_LocalPosition: {x: 0.5, y: 0, z: -0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 51612537}
@@ -67383,6 +67384,7 @@ MonoBehaviour:
   mass: 2
   interactDistance: 2
   hands: {fileID: 1447131811}
+  climbSpeed: 1
 --- !u!143 &1887055104
 CharacterController:
   m_ObjectHideFlags: 0
