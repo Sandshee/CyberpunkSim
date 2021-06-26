@@ -49,6 +49,7 @@ public class PlayerController : MonoBehaviour
     private bool queueUncrouch = false;
     public float crouchingHeight;
     private float standingHeight;
+    public Transform crouchingHeadCheck;
 
     [Header("Physics")]
 
@@ -64,6 +65,8 @@ public class PlayerController : MonoBehaviour
     private bool isClimbing = false;
     public float climbSpeed;
 
+    [Header("Slopes")]
+    public float slipAccel;
 
     // Start is called before the first frame update
     void Awake()
@@ -118,6 +121,7 @@ public class PlayerController : MonoBehaviour
         {
             startingJump = transform.position;
         }
+
     }
 
     /* Grounded Check methods
@@ -137,9 +141,15 @@ public class PlayerController : MonoBehaviour
         }
 
         //Just hit my head on the ceiling, owie, prevents the stuck head functionality.
-        if (!isGrounded && Physics.CheckSphere(headCheck.position, groundDistance, groundMask))
+        if(crouching)
         {
-            velocity.y = zeroGravity/2;
+            if (!isGrounded && Physics.CheckSphere(crouchingHeadCheck.position, groundDistance, groundMask))
+            {
+                velocity.y = zeroGravity / 2;
+            }
+        } else if (!isGrounded && Physics.CheckSphere(headCheck.position, groundDistance, groundMask))
+        {
+            velocity.y = zeroGravity / 2;
         }
 
         if(!wasGrounded && isGrounded)
@@ -171,12 +181,14 @@ public class PlayerController : MonoBehaviour
         cc.stepOffset = 0;
 
         canJump = false;
+        isGrounded = false;
     }
 
     IEnumerator WaitForNextJump(float modifier)
     {
         modifier = Mathf.Clamp(modifier * landingLag, 0, maxLandingTime * landingLag)/landingLag;
         coroutineCount++;
+        Debug.Log("Modifier: " + modifier + " Landing Lag: " + landingLag);
         yield return new WaitForSeconds(landingLag * modifier);
         coroutineCount--;
 
@@ -314,7 +326,7 @@ public class PlayerController : MonoBehaviour
         }
 
         //See if there's space above my head first.
-        if (queueUncrouch && !Physics.CheckSphere(headCheck.position, groundDistance, groundMask))
+        if (queueUncrouch && !Physics.CheckSphere(headCheck.position, groundDistance, groundMask) && !Physics.CheckSphere(crouchingHeadCheck.position, groundDistance, groundMask))
         {
             crouching = false;
             queueUncrouch = false;
@@ -325,6 +337,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /* The interactables, buttons etc.
+     * 
+     * 
+     */
+
     void Interact()
     {
 
@@ -334,7 +351,7 @@ public class PlayerController : MonoBehaviour
             heldItem = null;
         }
 
-        if (isClimbing)
+        else if (isClimbing)
         {
             isClimbing = false;
             ladder = null;
@@ -357,6 +374,11 @@ public class PlayerController : MonoBehaviour
                     heldItem = objectHit.collider.gameObject.GetComponent<PhysicsProp>();
 
                     heldItem.Pickup(hands);
+                }
+
+                if (objectHit.collider.CompareTag("Button"))
+                {
+                    objectHit.collider.gameObject.GetComponent<Button>().Activate();
                 }
 
                 //Using a ladder.
