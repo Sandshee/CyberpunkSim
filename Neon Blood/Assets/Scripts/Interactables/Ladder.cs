@@ -42,7 +42,11 @@ public class Ladder : MonoBehaviour
     public Vector3 Climb(float up, float speed)
     {
         currentPlayerPos = (up * speed) / height + currentPlayerPos;
-        currentPlayerPos = Mathf.Clamp01(currentPlayerPos);
+        if(currentPlayerPos > 1 || currentPlayerPos < 0)
+        {
+            //Disconnect the player.
+            return Vector3.zero;
+        }
         return Vector3.Lerp(ladderBottom.position, ladderTop.position, currentPlayerPos);
     }
 }

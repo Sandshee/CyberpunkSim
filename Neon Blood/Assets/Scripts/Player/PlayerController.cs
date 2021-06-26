@@ -67,6 +67,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Slopes")]
     public float slipAccel;
+    public bool sliding;
 
     // Start is called before the first frame update
     void Awake()
@@ -103,7 +104,12 @@ public class PlayerController : MonoBehaviour
             Interact();
         }
 
-        MovePlayer(im.GetPlayerMovement());
+        Slide();
+
+        if (!sliding)
+        {
+            MovePlayer(im.GetPlayerMovement());
+        }
 
         if (im.PlayerJumpedThisFrame() && isGrounded)
         {
@@ -121,7 +127,6 @@ public class PlayerController : MonoBehaviour
         {
             startingJump = transform.position;
         }
-
     }
 
     /* Grounded Check methods
@@ -188,7 +193,6 @@ public class PlayerController : MonoBehaviour
     {
         modifier = Mathf.Clamp(modifier * landingLag, 0, maxLandingTime * landingLag)/landingLag;
         coroutineCount++;
-        Debug.Log("Modifier: " + modifier + " Landing Lag: " + landingLag);
         yield return new WaitForSeconds(landingLag * modifier);
         coroutineCount--;
 
@@ -262,7 +266,10 @@ public class PlayerController : MonoBehaviour
 
     void Drag()
     {
-        horizontalVel = horizontalVel / drag;
+        if (!sliding)
+        {
+            horizontalVel = horizontalVel / drag;
+        }
     }
 
     private Vector3 GetHorizontalComponents(Vector2 inVector)
@@ -353,8 +360,7 @@ public class PlayerController : MonoBehaviour
 
         else if (isClimbing)
         {
-            isClimbing = false;
-            ladder = null;
+            StopClimbing();
         }
 
         else
@@ -362,9 +368,6 @@ public class PlayerController : MonoBehaviour
             RaycastHit objectHit;
 
             bool hit = Physics.Raycast(camAn.gameObject.transform.position, camAn.gameObject.transform.forward, out objectHit, interactDistance);
-            Debug.DrawRay(camAn.gameObject.transform.position, camAn.gameObject.transform.forward, Color.red, interactDistance);
-
-            Debug.Log("ButterFingers " + hit);
 
             if (hit)
             {
@@ -392,10 +395,46 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void Slide()
+    {
+        RaycastHit rayHit;
+
+        Physics.Raycast(groundCheck.position, Vector3.down, out rayHit, 1f, groundMask);
+
+        Vector3 normal = rayHit.normal;
+        Debug.Log("Y value: " + normal.y);
+        Debug.DrawRay(groundCheck.position, normal, Color.red, 2f);
+        if (normal.y <= 0.5 && normal.y > 0)
+        {
+            sliding = true;
+            //cc.Move(GetHorizontalComponents(normal));
+            //MovePlayer(GetHorizontalComponents(normal));
+            horizontalVel += GetHorizontalComponents(normal * slipAccel);
+            cc.Move(horizontalVel * Time.deltaTime);
+        } else
+        {
+            sliding = false;
+        }
+    }
+
     void Climbing()
     {
         float up = im.GetPlayerMovement().y;
 
-        transform.position = ladder.Climb(up, climbSpeed * Time.deltaTime);
+        Vector3 desiredPosition = ladder.Climb(up, climbSpeed * Time.deltaTime);
+        if (desiredPosition == Vector3.zero)
+        {
+            StopClimbing();
+        }
+        else
+        {
+            transform.position = desiredPosition;
+        }
+    }
+
+    void StopClimbing()
+    {
+        ladder = null;
+        isClimbing = false;
     }
 }
