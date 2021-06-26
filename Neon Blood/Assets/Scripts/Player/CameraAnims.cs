@@ -276,7 +276,9 @@ public class CameraAnims : MonoBehaviour
             crouchTime -= Time.deltaTime;
         }
 
-        Vector3 tempVec = Vector3.up * CrouchCurve.Evaluate(t);
+        float crouchStrength = Vector3.Distance(initialPos, crouchPos.localPosition);
+
+        Vector3 tempVec = Vector3.up * CrouchCurve.Evaluate(t) * crouchStrength;
 
         offsetValues += tempVec;
     }

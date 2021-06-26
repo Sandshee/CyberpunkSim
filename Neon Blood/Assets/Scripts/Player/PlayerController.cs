@@ -35,12 +35,15 @@ public class PlayerController : MonoBehaviour
     [Header("Jumping & Landing")]
 
     private bool canJump = true;
+    private bool canBump = false;
     public float landingLag = 1f;
     private int coroutineCount = 0;
     public float jumpHeight;
     private float jumpForce;
     private Vector3 startingJump;
     public float maxLandingTime;
+    private int jumpCoroutineCount = 0;
+
 
     [Header("Crouching")]
 
@@ -87,11 +90,15 @@ public class PlayerController : MonoBehaviour
         standingHeight = cc.height;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
         Grounded();
 
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
         CrouchCheck();
 
         if (isClimbing)
@@ -140,7 +147,7 @@ public class PlayerController : MonoBehaviour
 
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
-        if(isGrounded && velocity.y < 0)
+        if(isGrounded && velocity.y <= 0)
         {
             velocity.y = zeroGravity;
         }
@@ -148,13 +155,16 @@ public class PlayerController : MonoBehaviour
         //Just hit my head on the ceiling, owie, prevents the stuck head functionality.
         if(crouching)
         {
-            if (!isGrounded && Physics.CheckSphere(crouchingHeadCheck.position, groundDistance, groundMask))
+            if (!isGrounded && canBump && Physics.CheckSphere(crouchingHeadCheck.position, groundDistance, groundMask))
             {
-                velocity.y = zeroGravity / 2;
+                velocity.y = -0.1f;
+                canBump = false;
             }
-        } else if (!isGrounded && Physics.CheckSphere(headCheck.position, groundDistance, groundMask))
+        } else if (!isGrounded && canBump && Physics.CheckSphere(headCheck.position, groundDistance, groundMask))
         {
-            velocity.y = zeroGravity / 2;
+            velocity.y = -0.1f;
+            Debug.Log("Ouch");
+            canBump = false;
         }
 
         if(!wasGrounded && isGrounded)
@@ -176,17 +186,19 @@ public class PlayerController : MonoBehaviour
     void Jump()
     {
         //If I'm unable to jump, why bother?
-        if (!canJump)
+        if (!canJump || (crouching && Physics.CheckSphere(crouchingHeadCheck.position, groundDistance, groundMask)))
         {
             return;
         }
+
+        canBump = true;
         //Removes any additional vertical component to the velocity.
         velocity = Vector3.up * jumpForce;
         cc.slopeLimit = 0;
         cc.stepOffset = 0;
 
         canJump = false;
-        isGrounded = false;
+        //Debug.Break();
     }
 
     IEnumerator WaitForNextJump(float modifier)
@@ -198,7 +210,7 @@ public class PlayerController : MonoBehaviour
 
         if(coroutineCount == 0)
         {
-            canJump = true;
+            canJump = isGrounded;
         }
 
         if(coroutineCount < 0)
@@ -297,7 +309,7 @@ public class PlayerController : MonoBehaviour
 
             if (crouching)
             {
-                t *= 0.5f;
+                t *= 0.8f;
             }
 
             return t;
@@ -379,9 +391,10 @@ public class PlayerController : MonoBehaviour
                     heldItem.Pickup(hands);
                 }
 
-                if (objectHit.collider.CompareTag("Button"))
+                if (objectHit.collider.CompareTag("Interactible"))
                 {
-                    objectHit.collider.gameObject.GetComponent<Button>().Activate();
+                    Debug.Log("Beep!");
+                    objectHit.collider.gameObject.GetComponent<Interactible>().Activate();
                 }
 
                 //Using a ladder.
@@ -402,8 +415,6 @@ public class PlayerController : MonoBehaviour
         Physics.Raycast(groundCheck.position, Vector3.down, out rayHit, 1f, groundMask);
 
         Vector3 normal = rayHit.normal;
-        Debug.Log("Y value: " + normal.y);
-        Debug.DrawRay(groundCheck.position, normal, Color.red, 2f);
         if (normal.y <= 0.5 && normal.y > 0)
         {
             sliding = true;

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Button : MonoBehaviour
+public class Button : Interactible
 {
     public PoweredObject destination;
     public float duration = 2f;
@@ -19,8 +19,9 @@ public class Button : MonoBehaviour
         
     }
 
-    public void Activate()
+    public override void Activate()
     {
+        Debug.Log("Boop!");
         if (!locked)
         {
             destination.Power(duration);
