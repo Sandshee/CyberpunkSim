@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Button : Interactible
+public class Button3D : Interactible
 {
     public PoweredObject destination;
     public float duration = 2f;

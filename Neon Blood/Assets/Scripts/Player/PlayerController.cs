@@ -72,11 +72,23 @@ public class PlayerController : MonoBehaviour
     public float slipAccel;
     public bool sliding;
 
+    [Header("Mantle")]
+    public float mantleDistance;
+    public BoxTrigger mantleSpace;
+    public BoxTrigger mantleEdge;
+    private Transform mantleRay;
+    private Vector3 mantleDestination;
+    private Vector3 mantleOrigin;
+    private bool mantling;
+    private float mantleTime;
+    public float mantleDuration;
+
     // Start is called before the first frame update
     void Awake()
     {
         previousPosition = transform.position;
         cc = GetComponent<CharacterController>();
+        mantleRay = mantleSpace.transform;
     }
 
     private void Start()
@@ -116,6 +128,11 @@ public class PlayerController : MonoBehaviour
         if (!sliding)
         {
             MovePlayer(im.GetPlayerMovement());
+        }
+
+        if (im.PlayerJumpedThisFrame())
+        {
+            CheckMantle();
         }
 
         if (im.PlayerJumpedThisFrame() && isGrounded)
@@ -408,6 +425,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
+    /* The sliding code
+     * 
+     * 
+     */
+
     void Slide()
     {
         RaycastHit rayHit;
@@ -428,6 +451,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /* Climbing code is mostly left up to the ladder to calculate where I should be, I just trust the ladder.
+     * 
+     * 
+     */
+
     void Climbing()
     {
         float up = im.GetPlayerMovement().y;
@@ -447,5 +475,43 @@ public class PlayerController : MonoBehaviour
     {
         ladder = null;
         isClimbing = false;
+    }
+
+
+    /* The mantling code, this is where things could very easily go very wrong.
+     * 
+     * Mantling feels great for the player, and really opens up the parkour and verticality of any given level,
+     * giving the player a massive sense of freedom, I really hope I'll get it.
+     */
+    void CheckMantle()
+    {
+        if(!mantleSpace.IsTriggered() && mantleEdge.IsTriggered())
+        {
+            Debug.Log("I tried");
+            //Now we think we can mantle, we need to take a few more steps.
+            RaycastHit boxHit;
+            
+            if (Physics.BoxCast(mantleRay.position, Vector3.one * 0.5f, Vector3.down, out boxHit, Quaternion.identity, 1f, groundMask))
+            {
+                Debug.DrawRay(boxHit.point, Vector3.up, Color.red);
+                Debug.Log("This ray is invisible!");
+                Debug.Break();
+                //mantleDestination = boxHit.point;
+                //mantleOrigin = transform.position;
+                //mantling = true;
+            }
+        }
+    }
+
+    void Mantle()
+    {
+        mantleTime += Time.deltaTime;
+        float t = mantleTime / mantleDuration;
+        transform.position = Vector3.Lerp(mantleOrigin, mantleDestination, t);
+
+        if(mantleTime >= mantleDuration)
+        {
+            mantling = false;
+        }
     }
 }
